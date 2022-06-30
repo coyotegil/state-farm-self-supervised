@@ -1,0 +1,86 @@
+data:
+  train_path : "../../data/new_data_split/train/"
+  val_path : "../../data/new_data_split/val"
+  test_path : "../../data/OCT2017/test"
+  warmup_path : "../../data/warm_start_data_split/train"
+  source : "../../data/OCT2017"
+  destination : "../../data"
+  source_warmup : "../../data/new_data_split/"
+
+  # model paths
+  path_to_logs : "logs/scalars/"
+  path_to_checkpoints : "logs/checkPoints/"
+  path_to_model : "logs/saved_models/"
+
+pre_processing:
+  #Split
+  train_val_split : 0.98
+  warmup_split : 0.05
+
+  # Model
+  input : "resnet"
+  
+  # Augmentation
+  featurewise_center : False
+  samplewise_center : False
+  featurewise_std_normalization : False
+  samplewise_std_normalization : False
+  zca_whitening : False
+  zca_epsilon : 0.0000000001
+  rotation_range : 45
+  width_shift_range : 0.0
+  height_shift_range : 0.0
+  brightness_range : [0,0.8]
+  shear_range : 0.0
+  zoom_range : 0.0
+  channel_shift_range : 0.0
+  fill_mode : "nearest"
+  cval : 0.0
+  horizontal_flip : True
+  vertical_flip : True
+ 
+
+  # Flow
+ 
+  color_mode: "rgb"
+  batch_size: 32
+  target_size: 224
+  shuffle: True
+  seed: 1
+  interpolation: "bilinear"
+  
+compile:
+  loss : 'categorical_crossentropy'
+  metrics : ["accuracy"]
+
+optimizer:
+  lr : 0.0001
+  beta_1 : 0.9
+  beta_2 : 0.999
+  epsilon : 0.0000001
+  amsgrad : False
+
+fit:
+  batch_size : 32
+  epochs : 50
+  verbose : 'auto'
+  validation_split : 0.0  
+  shuffle : False 
+  class_weight :
+  sample_weight : 
+  initial_epoch : 0
+  steps_per_epoch : 2557 # needs to be an integer// calculated as training Sample size // Batch Size
+  validation_steps :  53   # needs to be an integer// calculated as Validation Sample size // Batch Size
+  validation_batch_size : 
+  validation_freq : 1
+  max_queue_size : 10
+  workers : 1
+  use_multiprocessing: 1
+
+predict:
+  batch_size : 1
+  verbose : 'auto'
+  steps : 32  # needs to be an integer// calculated as test Sample size // Batch Size
+  max_queue_size : 10
+  workers : 1
+  use_multiprocessing : False
